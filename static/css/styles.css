@@ -1,0 +1,28 @@
+
+body {
+
+    background-image: linear-gradient(-90deg, beige, grey);
+}
+
+@font-face {
+	font-family: FiraCode;
+	src: url('/static/fonts/FiraCode-Regular.otf');
+}
+
+.pikkuboxi{
+	
+	width: 50%;
+	background-color: #F2DEDF;
+	margin: auto;
+	padding: 20px;
+	margin-top: 20px;
+	border-radius: 10px;
+	padding-top: 20px;
+	margin-bottom:50px;
+		
+}
+
+h1 {
+	font-family: "FiraCode";
+	font-size: 14px;
+}

@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+
+<head>
+    {% block head %}
+    <meta charset="utf-8">
+    <title>{% block title %} CO₂ Emissions {% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="/static/css/styles.css">
+    {% endblock %}
+</head>
+
+<style>
+    body {
+
+        background-image: linear-gradient(-90deg, #ebebeb, #f1ede2);
+    }
+
+    @font-face {
+
+	font-family: FiraCode;
+    src: url('/static/fonts/FiraCode-Regular.otf');
+    
+    }
+
+    .pikkuboxi{
+	
+	width: 90%;
+	background-color: rgb(245, 248, 247);
+	margin: auto;
+	padding: 20px;
+	margin-top: 20px;
+	border-radius: 7px;
+	padding-top: 30px;
+	margin-bottom:20px;
+		
+}
+
+h1 {
+	font-family: "FiraCode";
+	font-size: 20px;
+}
+
+.navbar-brand {
+
+    font-family: "FiraCode";
+    font-size: 20px;
+    color: #0f61e4;
+}
+
+.nav-link {
+
+    font-family: "FiraCode";
+	font-size: 18px;
+
+}
+
+p {
+    font-family: "FiraCode";
+    font-size: 14px;
+    color: #525457;
+
+}
+
+.header {
+
+    font-family: "FiraCode";
+	font-size: 18px;
+
+}
+
+li {
+    font-family: "FiraCode";
+    font-size: 14px;
+    color: #525457;
+
+}
+    
+
+</style>
+
+<body>
+    {% block navbar %}
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="d-flex flex-grow-1">
+                <span class="w-100 d-lg-none d-block"></span>
+                <a class="navbar-brand" href="{{ url_for('main') }}">CO₂ Emissions</a>
+                    <div class="w-100 text-right">
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar7">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar7">
+                        <ul class="navbar-nav ml-auto flex-nowrap">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">Search</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">Browse</a>
+                            </li>
+                        </ul>
+                    </div>
+        </nav>
+    {% endblock %}
+
+    <div class="pikkuboxi">
+        <h1>Hmm juu</h1>
+        <p>Tähän tulee kaikenlaista tekstiä. Lorem ipsum dolore si amet vai miten se nyt menikään!</p>
+    </div>
+
+    {% block content %}
+    {% endblock %}
+    
+</body>
+
+</html>
