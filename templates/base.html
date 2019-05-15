@@ -10,6 +10,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <link rel="stylesheet" href="/static/css/styles.css">
     {% endblock %}
@@ -19,67 +20,114 @@
     body {
 
         background-image: linear-gradient(-90deg, #ebebeb, #f1ede2);
+        font-family: "FiraCode";
     }
 
     @font-face {
 
-	font-family: FiraCode;
-    src: url('/static/fonts/FiraCode-Regular.otf');
+        font-family: FiraCode;
+        src: url('/static/fonts/FiraCode-Regular.otf');
     
     }
 
     .pikkuboxi{
 	
-	width: 90%;
-	background-color: rgb(245, 248, 247);
-	margin: auto;
-	padding: 20px;
-	margin-top: 20px;
-	border-radius: 7px;
-	padding-top: 30px;
-	margin-bottom:20px;
+        width: 90%;
+        background-color: rgb(245, 248, 247);
+        margin: auto;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 7px;
+        padding-top: 30px;
+        margin-bottom:20px;
 		
-}
+    }
 
-h1 {
-	font-family: "FiraCode";
-	font-size: 20px;
-}
+    .medium_boksi{
 
-.navbar-brand {
+        width: 80%;
+        margin: auto;
 
-    font-family: "FiraCode";
-    font-size: 20px;
-    color: #0f61e4;
-}
+    }
 
-.nav-link {
+    .pienempiboksi_vasen{
 
-    font-family: "FiraCode";
-	font-size: 18px;
+        float: left;
+        width: 40%;
+        background-color: rgb(191, 230, 217);
+        margin: auto;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 7px;
+        padding-top: 30px;
+        margin-bottom:20px;
 
-}
+    }
 
-p {
-    font-family: "FiraCode";
-    font-size: 14px;
-    color: #525457;
+    .pienempiboksi_oikea{
 
-}
+        float: right;
+        width: 40%;
+        background-color: rgb(216, 230, 191);
+        margin: auto;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 7px;
+        padding-top: 30px;
+        margin-bottom:20px;
+        
+    }
 
-.header {
+    h1 {
+        font-family: "FiraCode";
+        font-size: 20px;
+    }
 
-    font-family: "FiraCode";
-	font-size: 18px;
+    .navbar-brand {
 
-}
+        font-family: "FiraCode";
+        font-size: 20px;
+        color: #0f61e4;
+    }
 
-li {
-    font-family: "FiraCode";
-    font-size: 14px;
-    color: #525457;
+    .nav-link {
 
-}
+        font-family: "FiraCode";
+        font-size: 18px;
+
+    }
+
+    p {
+        font-family: "FiraCode";
+        font-size: 14px;
+        color: #525457;
+
+    }
+
+    .header {
+
+        font-family: "FiraCode";
+        font-size: 18px;
+
+    }
+
+    li {
+        font-family: "FiraCode";
+        font-size: 14px;
+        color: #525457;
+
+    }
+
+    @import url(https://fonts.googleapis.com/css?family=Roboto);
+
+
+
+    #chart {
+        width: "100%";
+        margin: 35px auto;
+        /*font-family: "FiraCode"; ei toimi :< */
+    }
+
     
 
 </style>
@@ -99,20 +147,15 @@ li {
                     <div class="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar7">
                         <ul class="navbar-nav ml-auto flex-nowrap">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">Search</a>
+                                <a class="nav-link" href="{{ url_for('search') }}">Search</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">Browse</a>
+                                <a class="nav-link" href="{{ url_for('browse') }}">Browse</a>
                             </li>
                         </ul>
                     </div>
         </nav>
     {% endblock %}
-
-    <div class="pikkuboxi">
-        <h1>Hmm juu</h1>
-        <p>Tähän tulee kaikenlaista tekstiä. Lorem ipsum dolore si amet vai miten se nyt menikään!</p>
-    </div>
 
     {% block content %}
     {% endblock %}

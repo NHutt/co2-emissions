@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="pikkuboxi">
+            <form method="POST">
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Choose a country or other region!</label>
+                            <select name="country" value="{{ request.form.country }}" class="form-control" id="exampleFormControlSelect1">
+                                {% for country in country_list %}
+                                    <option>{{ country }}</option>
+                                {% endfor %}
+                            </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-outline-dark">Search</button>
+            </form>
+    </div>
+
+
+    {% if country_name %}
+
+    <div class="pikkuboxi">
+        <h1>CO₂ Emissions for {{country_name}}</h1>
+        <br>
+        <p>Emission amounts are in kilotonnes.</p>
+        <p>For some countries/years there is no recorded data available.</p>
+
+        {% if  data_values > 0 %}
+        <div class="medium_boksi">
+
+            <div id="chart">
+            </div>
+
+        </div>
+
+        {% else %}
+        <div class="medium_boksi">
+
+            <p>Uh-oh, looks like there's no data available for this country.</p>
+            <p>Try picking another!</p>
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
+
+
+    <script>
+
+            var years = "{{ data_years }}";
+            years = years.replace('[', '');
+            years = years.replace(']', '');
+            var years_array = years.split(",");
+
+
+            var emissions = "{{ emissions_for_country }}"
+            emissions = emissions.replace('[', '');
+            emissions = emissions.replace(']', '');
+            var emissions_array = emissions.split(",")
+
+            var emissions_with_null_values = [];
+            var amount_of_actual_data = 0;
+
+            
+            for (var i = 0; i < emissions_array.length; i++) {
+                if (emissions_array[i] == 0) {
+                    emissions_with_null_values.push(null);
+                    amount_of_actual_data ++
+                }else{
+                    emissions_with_null_values.push(emissions_array[i]);
+                }
+            }
+
+
+            var options = {
+                chart: {
+                type: 'area',
+                    animations: {
+                        initialAnimation: {
+                        enabled: true
+                        }
+                    },
+                },
+                stroke: {
+                    show: true,
+                    curve: 'smooth',
+                    colors:['#525457', '#525457', '#525457'],
+                    width: 4,     
+                },
+                fill: {
+                    
+                    colors:['#525457', '#adbcd3', '#e0ebfc'],
+
+                },
+                dataLabels: {
+                    style: {
+                        colors: ['#525457', '#525457', '#525457']
+                    }
+                },
+                markers: {
+                    size: 3,
+                    colors:['#525457', '#adbcd3', '#e0ebfc'],
+                },
+                series: [{
+                    name: 'emissions',
+                    data: emissions_with_null_values
+                }],
+                xaxis: {
+                    categories: years_array,
+                    labels: {
+                        show: true,
+                    }
+
+                }
+            }
+            
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            
+            chart.render();
+
+
+    </script>
+
+{% endblock %}
+
+

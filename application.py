@@ -1,19 +1,15 @@
 from flask import Flask
 from flask import request
 from flask import render_template
+from flask import url_for
 import csv
 
 app = Flask(__name__)
-
-@app.route('/hello')
-def hello_world():
-    return 'Hei vain'
 
 
 # metodit, joilla saadaan koko maailman kokonaismäärä populaation ja saasteiden osalta
 # tietylle vuodelle
 
-@app.route('/totalemissions')
 def calculate_total_emissions_for_year(): #parametri year
     with open ('./data/CSV/co2-emissions-data.csv', 'r') as emissions_csv:
         csv_reader = csv.reader(emissions_csv, delimiter=',')
@@ -42,7 +38,6 @@ def calculate_total_emissions_for_year(): #parametri year
         # jonkinlainen for-looppi joka kasvattaa arvoa kunkin rivin jälkeen
     return formatted_total_emissions
 
-@app.route('/totalpopulation')
 def calculate_total_population_for_year(): # parametri year
     with open ('./data/CSV/population-data.csv', 'r') as population_csv:
         csv_reader = csv.reader(population_csv, delimiter=',')
@@ -63,7 +58,8 @@ def calculate_total_population_for_year(): # parametri year
                 
         print(total_population)
         print('Total world population in the year ' + year + ' was at least ' + str(total_population) + ' people.')
-        6,542,159,383
+        # palauttaa aivan väärän arvon, koska aineistossa maat erillisinä + maanosat, joten
+        # väkiluvusta tulee noin kymmenen kertaa isompi kuin kuuluisi
 
     return str(total_population)
     
@@ -100,7 +96,6 @@ def generate_emissions_per_capita_list(year):
 # metodit, joilla haetaan yksittäisten maiden arvoja
 # väkiluku, päästöt, ja päästöt suhteutettuna väkilukuun
 
-@app.route('/getpopulation')
 def get_population(): #parametrit year ja country
     with open ('./data/CSV/population-data.csv', 'r') as population_csv:
         csv_reader = csv.reader(population_csv, delimiter=',')
@@ -122,7 +117,6 @@ def get_population(): #parametrit year ja country
 
     return population
 
-@app.route('/getemissions')
 def get_emissions(): #parametrit year ja country
     with open ('./data/CSV/co2-emissions-data.csv', 'r') as emissions_csv:
         csv_reader = csv.reader(emissions_csv, delimiter=',')
@@ -144,6 +138,55 @@ def get_emissions(): #parametrit year ja country
 
     return emissions
 
+def get_year_list():
+    with open ('./data/CSV/co2-emissions-data.csv', 'r') as emissions_csv:
+        csv_reader = csv.reader(emissions_csv, delimiter=',')
+        for line in csv_reader:
+            line_number = csv_reader.line_num
+            # luodaan headereiden vuosista lista
+            if line_number == 5:
+                headers = line
+                indexes = len(headers)
+                years = []
+                for i in range(4, indexes-1):
+                    if len(line[i]) > 0:
+                        years.append(int(line[i]))
+                    else:
+                        years.append(0)
+
+                print(years)
+                print(len(years))
+
+    return years
+
+def get_all_emissions_for_country(country):
+    with open ('./data/CSV/co2-emissions-data.csv', 'r') as emissions_csv:
+        csv_reader = csv.reader(emissions_csv, delimiter=',')
+        for line in csv_reader:
+            line_number = csv_reader.line_num
+            # luodaan headereiden vuosista lista
+            if line_number == 5:
+                headers = line
+                indexes = len(headers)
+                years = []
+                for i in range(4, indexes-1):
+                    years.append(line[i])
+
+            if line_number > 5:
+                # tarkistetaan, vastaako rivin maa kysyttyä maata
+                if line[0] == country:
+                    emissions = []
+                    # tulokseksi saadaan kysytyn vuoden päästöt
+                    for i in range(4, indexes-1):
+                        if len(line[i]) > 0:
+                            emissions.append(float(line[i]))
+                        else:
+                            emissions.append(0)
+                    print(emissions)
+                    print(len(emissions))
+
+    return emissions
+
 def calculate_emissions_per_capita(country, year):
     # tähän joku metodi, joka hakee ensin oikean väkiluvun
     # get_population
@@ -155,8 +198,8 @@ def calculate_emissions_per_capita(country, year):
     return emissions_per_capita
 
 def get_country_list():
-    with open ('./data/CSV/population-data.csv', 'r') as population_csv:
-        csv_reader = csv.reader(population_csv, delimiter=',')
+    with open ('./data/CSV/co2-emissions-data.csv', 'r') as emissions_csv:
+        csv_reader = csv.reader(emissions_csv, delimiter=',')
         countries = []
         for line in csv_reader:
             line_number = csv_reader.line_num
@@ -165,11 +208,44 @@ def get_country_list():
         print(countries)
     return countries
 
+def check_data_values(emissions):
+    values_amount = 0
+    for i in range(0, (len(emissions))-1):
+        if (emissions[i] > 0):
+            values_amount += 1
+    print(values_amount)
+    return values_amount
+
+
+@app.route('/co2-emissions/browse')
+def browse():
+    years = get_year_list()
+    emissions = get_all_emissions_for_country('Finland')
+    return render_template('browse.html', data_years=years, emissions_for_country=emissions)
+
+@app.route('/co2-emissions/search', methods=["GET", "POST"])
+def search():
+    if request.method == "GET":
+        #country = countryname.capitalize()
+        countries = get_country_list()
+        return render_template('search.html', country_list=countries)
+
+    elif request.method == "POST":
+        print(request)
+        country = request.form['country']
+        print(country)
+        countries = get_country_list()
+        years = get_year_list()
+        emissions = get_all_emissions_for_country(country)
+        values_amount = check_data_values(emissions)
+        return render_template('search.html', emissions_for_country=emissions, data_years=years, country_list=countries, country_name=country, data_values=values_amount)
+
+
 
 @app.route('/co2-emissions')
 def main():
     countries = get_country_list()
-    print(countries)
+
     return render_template('index.html', country_list=countries)
 
 
