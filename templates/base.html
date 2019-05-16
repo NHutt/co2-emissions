@@ -17,6 +17,9 @@
 </head>
 
 <style>
+
+    /* Vain luoja tietää, minkä takia tyylit eivät toimi omasta tiedostostaan käsin, joten ne ovat nyt toistaiseksi häpeäkseni tässä*/
+    
     body {
 
         background-image: linear-gradient(-90deg, #ebebeb, #f1ede2);
@@ -41,6 +44,49 @@
         padding-top: 30px;
         margin-bottom:20px;
 		
+    }
+
+    .container{
+
+        text-align: center;
+    }
+
+    .textbox{
+
+        margin-bottom: 30px;
+        margin-top: 50 px;
+    }
+
+    .textbox_error{
+
+        margin-top: 50 px;
+        display: inline-block;
+        width: 70%;
+        background-color: rgb(245, 248, 247);
+        margin: auto;
+        margin-top: 20px;
+        border-radius: 7px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        padding-right: 30px;
+        padding-left: 30px;
+    }       
+
+    .formbox{
+
+        text-align: left;
+
+        width: 70%;
+        background-color: rgb(245, 248, 247);
+        margin: auto;
+        margin-top: 20px;
+        border-radius: 7px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        padding-right: 30px;
+        padding-left: 30px;
+        
+        display: inline-block;
     }
 
     .medium_boksi{
@@ -78,10 +124,12 @@
         
     }
 
+    
     h1 {
         font-family: "FiraCode";
-        font-size: 20px;
+        font-size: 25px;
     }
+    
 
     .navbar-brand {
 
@@ -128,8 +176,6 @@
         /*font-family: "FiraCode"; ei toimi :< */
     }
 
-    
-
 </style>
 
 <body>
@@ -161,5 +207,4 @@
     {% endblock %}
     
 </body>
-
 </html>

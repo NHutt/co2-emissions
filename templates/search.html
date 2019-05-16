@@ -2,54 +2,75 @@
 
 {% block content %}
 
-    <div class="pikkuboxi">
-            <form method="POST">
-                    <div class="form-group">
-                        <label for="exampleFormControlSelect1">Choose a country or other region!</label>
-                            <select name="country" value="{{ request.form.country }}" class="form-control" id="exampleFormControlSelect1">
-                                {% for country in country_list %}
-                                    <option>{{ country }}</option>
-                                {% endfor %}
-                            </select>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-outline-dark">Search</button>
-            </form>
-    </div>
+    <div class="container">
+        <div class="formbox">
+                <form method="POST">
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Choose a country or other region!</label>
+                                <select name="country" value="{{ request.form.country }}" class="form-control" id="exampleFormControlSelect1">
+                                    {% if country_name %}
+                                        <option value="" selected disabled>{{ country_name }}</option>
+                                    {% endif %}
+                                    {% for country in country_list %}
+                                        <option>{{ country }}</option>
+                                    {% endfor %}
+                                </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-outline-dark">Search</button>
+                </form>
+        </div>
+    </div>  
 
 
     {% if country_name %}
 
-    <div class="pikkuboxi">
-        <h1>CO₂ Emissions for {{country_name}}</h1>
-        <br>
-        <p>Emission amounts are in kilotonnes.</p>
-        <p>For some countries/years there is no recorded data available.</p>
-
         {% if  data_values > 0 %}
-        <div class="medium_boksi">
 
-            <div id="chart">
+        <div class="pikkuboxi">
+            <div class="container">
+                <div class="textbox">
+                    <h1>CO₂ Emissions for {{country_name}}</h1>
+                    <br>
+                    <p>Emission amounts are in kilotonnes.</p>
+                    <p>For some years there is no recorded data available.</p>
+                    <p>You can mouseover the chart to see specific data values.</p>
+                </div>
             </div>
 
+            <div class="medium_boksi">
+
+                <div id="chart">
+                </div>
+
+            </div>
+
+            {% else %}
+
+                <div class="container">
+                    <div class="textbox_error">
+                        <h1>CO₂ Emissions for {{country_name}}</h1>
+                        <br>
+                        <p>Sorry, it looks like there's no data available!</p>
+                        <p>Try picking another country!</p>
+                    </div>
+                </div>
+
+
+            {% endif %}
+
         </div>
-
-        {% else %}
-        <div class="medium_boksi">
-
-            <p>Uh-oh, looks like there's no data available for this country.</p>
-            <p>Try picking another!</p>
-        </div>
-
-        {% endif %}
-
-    </div>
 
     {% endif %}
 
 
 
     <script>
+
+            // Tehdään kökköä käsittelyä, että saadaan pitkästä stringistä Apexchartsin haluamat
+            // taulukot. Tässä annan categoryt omana taulukkona ja valuet omana taulukkona, sillä
+            // dataa ei aikasarjassa järjestetä toisin kuin browse.html:ssä.
+
 
             var years = "{{ data_years }}";
             years = years.replace('[', '');
@@ -106,16 +127,33 @@
                     colors:['#525457', '#adbcd3', '#e0ebfc'],
                 },
                 series: [{
-                    name: 'emissions',
+                    name: 'CO₂ emissions (kt)',
                     data: emissions_with_null_values
                 }],
                 xaxis: {
                     categories: years_array,
+                    title: {
+                        text: 'Year'
+                    },
                     labels: {
-                        show: true,
+                        show: false,
                     }
 
-                }
+                },
+                yaxis: {
+                    seriesName: 'jokin',
+                    forceNiceScale: true,
+                    decimalsInFloat: 2,
+                    min: 0,
+                    title: {
+                        text: 'CO₂ emissions (kt)'
+                    },
+
+                },
+                dataLabels: {
+                    enabled: false,
+                },
+
             }
             
             var chart = new ApexCharts(document.querySelector("#chart"), options);

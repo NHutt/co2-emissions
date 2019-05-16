@@ -1,28 +1,157 @@
 
 body {
 
-    background-image: linear-gradient(-90deg, beige, grey);
+	background-image: linear-gradient(-90deg, #ebebeb, #f1ede2);
+	font-family: "FiraCode";
 }
 
+
 @font-face {
+
 	font-family: FiraCode;
 	src: url('/static/fonts/FiraCode-Regular.otf');
+
 }
 
 .pikkuboxi{
-	
-	width: 50%;
-	background-color: #F2DEDF;
+
+	width: 90%;
+	background-color: rgb(245, 248, 247);
 	margin: auto;
 	padding: 20px;
 	margin-top: 20px;
-	border-radius: 10px;
-	padding-top: 20px;
-	margin-bottom:50px;
-		
+	border-radius: 7px;
+	padding-top: 30px;
+	margin-bottom:20px;
+	
 }
+
+.container{
+
+	text-align: center;
+}
+
+.textbox{
+
+	margin-bottom: 30px;
+	margin-top: 50 px;
+}
+
+.textbox_error{
+
+	margin-top: 50 px;
+	display: inline-block;
+	width: 70%;
+	background-color: rgb(245, 248, 247);
+	margin: auto;
+	margin-top: 20px;
+	border-radius: 7px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	padding-right: 30px;
+	padding-left: 30px;
+}       
+
+.formbox{
+
+	text-align: left;
+
+	width: 70%;
+	background-color: rgb(245, 248, 247);
+	margin: auto;
+	margin-top: 20px;
+	border-radius: 7px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	padding-right: 30px;
+	padding-left: 30px;
+	
+	display: inline-block;
+}
+
+.medium_boksi{
+
+	width: 80%;
+	margin: auto;
+
+}
+
+.pienempiboksi_vasen{
+
+	float: left;
+	width: 40%;
+	background-color: rgb(191, 230, 217);
+	margin: auto;
+	padding: 20px;
+	margin-top: 20px;
+	border-radius: 7px;
+	padding-top: 30px;
+	margin-bottom:20px;
+
+}
+
+.pienempiboksi_oikea{
+
+	float: right;
+	width: 40%;
+	background-color: rgb(216, 230, 191);
+	margin: auto;
+	padding: 20px;
+	margin-top: 20px;
+	border-radius: 7px;
+	padding-top: 30px;
+	margin-bottom:20px;
+	
+}
+
 
 h1 {
 	font-family: "FiraCode";
+	font-size: 25px;
+}
+
+
+.navbar-brand {
+
+	font-family: "FiraCode";
+	font-size: 20px;
+	color: #0f61e4;
+}
+
+.nav-link {
+
+	font-family: "FiraCode";
+	font-size: 18px;
+
+}
+
+p {
+	font-family: "FiraCode";
 	font-size: 14px;
+	color: #525457;
+
+}
+
+.header {
+
+	font-family: "FiraCode";
+	font-size: 18px;
+
+}
+
+li {
+	font-family: "FiraCode";
+	font-size: 14px;
+	color: #525457;
+
+}
+
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+
+
+#chart {
+	width: "100%";
+	margin: 35px auto;
+	/*font-family: "FiraCode"; ei toimi :< */
 }

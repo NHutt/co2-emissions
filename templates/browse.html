@@ -2,31 +2,138 @@
 
 {% block content %}
 
-    <div class="pikkuboxi">
-        <h1>CO₂ Emissions - tämä on browse</h1>
-        <p>Täältä saa tietoa saasteista jne äksdee saasteet ei oo cool kyl yhtään höh</p>
-        <ul>
-            {% for country in country_list %}
-                <li>{{ country }}</li>
-            {% endfor %}
-        </ul>
+    <div class="container">
+        <div class="formbox">
+                <form method="POST">
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Choose a year!</label>
+                                <select name="year" value="{{ request.form.year }}" class="form-control" id="exampleFormControlSelect1">
+                                    {% if data_year %}
+                                    <option value="" selected disabled>{{ data_year }}</option>
+                                    {% endif %}
+                                    {% for year in data_years %}
+                                        <option>{{ year }}</option>
+                                    {% endfor %}
+                                </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-outline-dark">Search</button>
+                </form>
+        </div>
     </div>
 
-    <div class="pienempiboksi_vasen">
-            <ul>
-                {% for year in data_years %}
-                    <li>{{ year }}</li>
-                {% endfor %}
+    {% if data_year %}
 
-            </ul>
+        {% if data_values > 0 %}
+
+        <div class="pikkuboxi">
+            <div class="container">
+                <div class="textbox">
+                    <h1>CO₂ Emissions for {{data_year}}</h1>
+                    <br>
+                    <p>This chart is based on emissions per capita.</p>
+                    <p>You can mouseover the chart to see specific data values.</p>
+                    <p>I also know that these charts are very much out of whack.</p>
+                    <p>But that's what you get with data like this.</p>
+                </div>
+            </div>
+            
+            <div class="medium_boksi">
+            
+                <div id="chart">
+                </div>
+            
+            </div>
+
+            {% else %}
+
+                <div class="container">
+                    <div class="textbox_error">
+                        <h1>CO₂ Emissions for {{data_year}}</h1>
+                        <br>
+                        <p>Sorry, it looks like there's no data available!</p>
+                        <p>Try picking another year!</p>
+                    </div>
+                </div>
+
+
+            {% endif %}
+
     </div>
 
-    <div class="pienempiboksi_oikea">
-        <ul>
-            {% for value in emissions_for_country %}
-                <li>{{ value }}</li>
-            {% endfor %}
-        </ul>
-    </div>
+    {% endif %}
+
+
+        
+
+        <script>
+
+            // Tehdään kökköä käsittelyä, että saadaan pitkästä stringistä Apexchartsin haluama
+            // Javascript-objektitaulukko
+            // Miinuksena se, että joidenkin maiden nimissä on pilkku, joka ei oikein käy yhteen tämän
+            // tavan kanssa, ja pitäisi ratkaista samalla kun kehitän tähän muutenkin jonkin
+            // järkevämmän ratkaisun.
+
+            var data = "{{all_data}}";
+
+            data = data.replace('[', '');
+            data = data.replace(']', '');
+
+            data_array = data.split(', ');
+
+
+            var index_string = '';
+
+            small_array = []
+
+            object_array = []
+
+            for (var i = 0; i < data_array.length; i++) {
+
+                    var newData = new Object();
+                
+                    index_string = data_array[i]
+                    small_array = index_string.split(':')
+                    newData.x = small_array[0];
+                    newData.y = small_array[1];
+
+                    object_array.push(newData)
+
+            }
+
+
+            var options = {
+                chart: {
+                    height: 5000,
+                    type: 'bar',
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: true,
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'Per capita CO₂ emissions score',
+                    data: object_array
+
+                }],
+                fill: {
+                    
+                    colors:['#525457', '#adbcd3', '#e0ebfc'],
+
+                },
+
+            }
+
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+        
+            chart.render();
+    
+            
+            </script>
+        
 
 {% endblock %}
