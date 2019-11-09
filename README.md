@@ -2,6 +2,8 @@
 
 Check the page out at https://nhutt-co2-emissions.herokuapp.com/co2-emissions
 
+The page might be slow to load due to it being hosted for free at Heroku, please give it some time.
+
 On the search page you can pick a country or region and see the relevant CO2 emission values from years 1960-2014.
 
 On the browse page you can pick a year and view emissions per capita values for all available countries.
